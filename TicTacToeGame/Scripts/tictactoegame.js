@@ -4,7 +4,7 @@
 
 $(function () {
 
-    var game = $.connection.ticTacToeGameHub;
+    var game = $.connection.ticTacToeGameHub;;
     var currentMove;
     var currentTileIdx;
     var myMoves = [];

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TicTacToe
 {
-    public class Tile   
+    class Tile   
     {
         public Guid Id { get; set; }
         public int X { get; set; }
