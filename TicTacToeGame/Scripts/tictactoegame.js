@@ -4,7 +4,7 @@
 
 $(function () {
 
-    var game = $.connection.ticTacToeGameHub;;
+    var game = $.connection.ticTacToeGameHub;
     var currentMove;
     var currentTileIdx;
     var myMoves = [];
@@ -38,6 +38,11 @@ $(function () {
         opponentsMoves.push(newTile);
         updateBoard(true);
     };
+
+    game.client.abortGame = function (msg) {
+        $('#msg').text(msg);
+        $(':button').prop('disabled', true);
+    }
 
     game.client.endGame = function (winner){
 

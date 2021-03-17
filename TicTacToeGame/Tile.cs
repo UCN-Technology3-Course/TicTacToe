@@ -10,7 +10,7 @@ namespace TicTacToe
         public Guid Id { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public State TileState { get; set; }
+        public State TileValue { get; set; }
 
         public enum State
         {

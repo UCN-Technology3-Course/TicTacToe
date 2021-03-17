@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Web;
 
 namespace TicTacToe
 {
@@ -21,35 +18,71 @@ namespace TicTacToe
         {
             // creating board
             Board = new Tile[]{
-                new Tile(){ X = 0, Y = 0, TileState = Tile.State.None }, // 0
-                new Tile(){ X = 0, Y = 1, TileState = Tile.State.None }, // 1
-                new Tile(){ X = 0, Y = 2, TileState = Tile.State.None }, // 2
-                new Tile(){ X = 1, Y = 0, TileState = Tile.State.None }, // 3
-                new Tile(){ X = 1, Y = 1, TileState = Tile.State.None }, // 4
-                new Tile(){ X = 1, Y = 2, TileState = Tile.State.None }, // 5
-                new Tile(){ X = 2, Y = 0, TileState = Tile.State.None }, // 6
-                new Tile(){ X = 2, Y = 1, TileState = Tile.State.None }, // 7
-                new Tile(){ X = 2, Y = 2, TileState = Tile.State.None }, // 8
+                new Tile(){ X = 0, Y = 0, TileValue = Tile.State.None }, // 0
+                new Tile(){ X = 0, Y = 1, TileValue = Tile.State.None }, // 1
+                new Tile(){ X = 0, Y = 2, TileValue = Tile.State.None }, // 2
+                new Tile(){ X = 1, Y = 0, TileValue = Tile.State.None }, // 3
+                new Tile(){ X = 1, Y = 1, TileValue = Tile.State.None }, // 4
+                new Tile(){ X = 1, Y = 2, TileValue = Tile.State.None }, // 5
+                new Tile(){ X = 2, Y = 0, TileValue = Tile.State.None }, // 6
+                new Tile(){ X = 2, Y = 1, TileValue = Tile.State.None }, // 7
+                new Tile(){ X = 2, Y = 2, TileValue = Tile.State.None }, // 8
             };
         }
 
-        internal void SetTileState(int x, int y, Tile.State state)
+
+        /// <summary>
+        /// Checks and persorms a move if it is valid according to rules
+        /// </summary>
+        /// <param name="chosen"></param>
+        /// <param name="discarded"></param>
+        /// <param name="color"></param>
+        /// <returns>A value indicating whether the move is valid or not</returns>
+        internal bool ValidateAndPerformMove(int chosenX, int chosenY, int? discardedX, int? discardedY, Tile.State color)
         {
-            Board.Single(t => t.X == x && t.Y == y).TileState = state;
+            // Checks if the chosen tile is empty
+            if (!Board.Any(t => t.X == chosenX && t.Y == chosenY && t.TileValue == Tile.State.None))
+            {
+                return false;
+            }
+            // clears discarded tile
+            if (discardedX.HasValue && discardedY.HasValue)
+            {
+                // Checks if the discarded tile can be discarded
+                if (!Board.Any(t => t.X == discardedX.Value && t.Y == discardedY.Value && t.TileValue == color))
+                {
+                    return false;
+                }
+                SetTileState(discardedX.Value, discardedY.Value, Tile.State.None);
+            }
+            // occupies selected tile
+            SetTileState(chosenX, chosenY, color);
+
+            return true;
+        }
+
+        private void SetTileState(int x, int y, Tile.State state)
+        {
+            Board.Single(t => t.X == x && t.Y == y).TileValue = state;
         }
 
         // Checks the state of the game. 
         internal bool CheckGameState()
         {
             // winning combinations
-            var test = (Board[0].TileState & Board[1].TileState & Board[2].TileState) |
-                (Board[3].TileState & Board[4].TileState & Board[5].TileState) | 
-                (Board[6].TileState & Board[7].TileState & Board[8].TileState) | 
-                (Board[0].TileState & Board[3].TileState & Board[6].TileState) | 
-                (Board[1].TileState & Board[4].TileState & Board[7].TileState) | 
-                (Board[2].TileState & Board[5].TileState & Board[8].TileState) | 
-                (Board[0].TileState & Board[4].TileState & Board[8].TileState) | 
-                (Board[2].TileState & Board[4].TileState & Board[6].TileState);
+            //  0 | 1 | 2
+            // -----------
+            //  3 | 4 | 5
+            // -----------
+            //  6 | 7 | 8
+            var test = (Board[0].TileValue & Board[1].TileValue & Board[2].TileValue) |
+                       (Board[3].TileValue & Board[4].TileValue & Board[5].TileValue) |
+                       (Board[6].TileValue & Board[7].TileValue & Board[8].TileValue) |
+                       (Board[0].TileValue & Board[3].TileValue & Board[6].TileValue) |
+                       (Board[1].TileValue & Board[4].TileValue & Board[7].TileValue) |
+                       (Board[2].TileValue & Board[5].TileValue & Board[8].TileValue) |
+                       (Board[0].TileValue & Board[4].TileValue & Board[8].TileValue) |
+                       (Board[2].TileValue & Board[4].TileValue & Board[6].TileValue);
 
             // setting winner and looser
             switch (test)
@@ -66,13 +99,6 @@ namespace TicTacToe
 
             // returns true if the game is finished, otherwise false
             return test != Tile.State.None;
-        }
-
-        // Checks if a move is valid according to rules
-        internal bool ValidateMove(dynamic chosen)
-        {
-
-            return true;
         }
     }
 }
