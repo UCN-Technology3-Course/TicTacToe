@@ -6,18 +6,18 @@ using System.Web;
 
 namespace TicTacToe
 {
-    class Game
+    internal class Game
     {
-        public dynamic PlayerX { get; set; }
-        public dynamic PlayerO { get; set; }
-        public dynamic Winner { get; set; }
-        public dynamic Looser { get; set; }
-        public Guid GameId { get; set; }
-        public int Moves { get; set; }
+        internal dynamic PlayerX { get; set; }
+        internal dynamic PlayerO { get; set; }
+        internal dynamic Winner { get; set; }
+        internal dynamic Looser { get; set; }
+        internal Guid GameId { get; set; }
+        internal int Moves { get; set; }
 
         private Tile[] Board { get; }
 
-        public Game()
+        internal Game()
         {
             // creating board
             Board = new Tile[]{
@@ -33,15 +33,15 @@ namespace TicTacToe
             };
         }
 
-        public void SetTileState(int x, int y, Tile.State state)
+        internal void SetTileState(int x, int y, Tile.State state)
         {
             Board.Single(t => t.X == x && t.Y == y).TileState = state;
         }
 
         // Checks the state of the game. 
-        public bool CheckGameState()
+        internal bool CheckGameState()
         {
-            // possible winning combinations
+            // winning combinations
             var test = (Board[0].TileState & Board[1].TileState & Board[2].TileState) |
                 (Board[3].TileState & Board[4].TileState & Board[5].TileState) | 
                 (Board[6].TileState & Board[7].TileState & Board[8].TileState) | 
@@ -49,7 +49,7 @@ namespace TicTacToe
                 (Board[1].TileState & Board[4].TileState & Board[7].TileState) | 
                 (Board[2].TileState & Board[5].TileState & Board[8].TileState) | 
                 (Board[0].TileState & Board[4].TileState & Board[8].TileState) | 
-                (Board[2].TileState & Board[4].TileState & Board[3].TileState);
+                (Board[2].TileState & Board[4].TileState & Board[6].TileState);
 
             // setting winner and looser
             switch (test)
@@ -66,6 +66,13 @@ namespace TicTacToe
 
             // returns true if the game is finished, otherwise false
             return test != Tile.State.None;
+        }
+
+        // Checks if a move is valid according to rules
+        internal bool ValidateMove(dynamic chosen)
+        {
+
+            return true;
         }
     }
 }
