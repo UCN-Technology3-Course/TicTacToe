@@ -39,17 +39,17 @@ namespace TicTacToe
         {
             var game = _games.Single(g => g.GameId == gameId);
 
-            Tile.State color = game.Moves++ % 2 == 1 ? Tile.State.O : Tile.State.X;
+            Tile.Color color = game.Moves++ % 2 == 1 ? Tile.Color.O : Tile.Color.X;
 
-            if (game.ValidateAndPerformMove((int)chosen.x, (int)chosen.y, (int?)discarded?.x, (int?)discarded?.y, color))
+            if (game.ValidateAndMove((int)chosen.x, (int)chosen.y, (int?)discarded?.x, (int?)discarded?.y, color))
             {
                 // Valid move 
                 switch (color)
                 {
-                    case Tile.State.X:
+                    case Tile.Color.X:
                         game.PlayerO.opponentMove(chosen, discarded);
                         break;
-                    case Tile.State.O:
+                    case Tile.Color.O:
                         game.PlayerX.opponentMove(chosen, discarded);
                         break;
                 }
@@ -66,11 +66,11 @@ namespace TicTacToe
                 // Cheating attempt detected
                 switch (color)
                 {
-                    case Tile.State.X:
+                    case Tile.Color.X:
                         game.PlayerX.abortGame("You is cheating!");
                         game.PlayerO.abortGame("The opponent are cheating");
                         break;
-                    case Tile.State.O:
+                    case Tile.Color.O:
                         game.PlayerX.abortGame("The opponent are cheating");
                         game.PlayerO.abortGame("You is cheating!");
                         break;

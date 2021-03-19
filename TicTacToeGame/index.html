@@ -23,26 +23,27 @@
         <dic class="row justify-content-center">
             <h1>Tic Tac Toe</h1>
         </dic>
-        <div class="row justify-content-center">
-            <div><button id="btn00" onclick="makeMove(0, 0)" disabled><img src="images/blank.png" id="img00" /></button></div>
-            <div><button id="btn01" onclick="makeMove(0, 1)" disabled><img src="images/blank.png" id="img01" /></button></div>
-            <div><button id="btn02" onclick="makeMove(0, 2)" disabled><img src="images/blank.png" id="img02" /></button></div>
+        <div id="board">
+            <div class="row justify-content-center">
+                <div><button id="btn00" onclick="makeMove(0, 0)" disabled><img src="images/blank.png" id="img00" /></button></div>
+                <div><button id="btn01" onclick="makeMove(0, 1)" disabled><img src="images/blank.png" id="img01" /></button></div>
+                <div><button id="btn02" onclick="makeMove(0, 2)" disabled><img src="images/blank.png" id="img02" /></button></div>
+            </div>
+            <div class="row justify-content-center">
+                <div><button id="btn10" onclick="makeMove(1, 0)" disabled><img src="images/blank.png" id="img10" /></button></div>
+                <div><button id="btn11" onclick="makeMove(1, 1)" disabled><img src="images/blank.png" id="img11" /></button></div>
+                <div><button id="btn12" onclick="makeMove(1, 2)" disabled><img src="images/blank.png" id="img12" /></button></div>
+            </div>
+            <div class="row justify-content-center">
+                <div><button id="btn20" onclick="makeMove(2, 0)" disabled><img src="images/blank.png" id="img20" /></button></div>
+                <div><button id="btn21" onclick="makeMove(2, 1)" disabled><img src="images/blank.png" id="img21" /></button></div>
+                <div><button id="btn22" onclick="makeMove(2, 2)" disabled><img src="images/blank.png" id="img22" /></button></div>
+            </div>
+            <div class="row justify-content-center">
+                <span id="msg"></span>
+                <a href="#" id="joinLink">Join Game</a>
+            </div>
         </div>
-        <div class="row justify-content-center">
-            <div><button id="btn10" onclick="makeMove(1, 0)" disabled><img src="images/blank.png" id="img10" /></button></div>
-            <div><button id="btn11" onclick="makeMove(1, 1)" disabled><img src="images/blank.png" id="img11" /></button></div>
-            <div><button id="btn12" onclick="makeMove(1, 2)" disabled><img src="images/blank.png" id="img12" /></button></div>
-        </div>
-        <div class="row justify-content-center">
-            <div><button id="btn20" onclick="makeMove(2, 0)" disabled><img src="images/blank.png" id="img20" /></button></div>
-            <div><button id="btn21" onclick="makeMove(2, 1)" disabled><img src="images/blank.png" id="img21" /></button></div>
-            <div><button id="btn22" onclick="makeMove(2, 2)" disabled><img src="images/blank.png" id="img22" /></button></div>
-        </div>
-        <div class="row justify-content-center">
-            <span id="msg"></span>
-            <a href="#" id="joinLink">Join Game</a>
-        </div>
-        
     </div>
     <script src="https://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.2.js"></script>
     <script src="signalr/hubs"></script>

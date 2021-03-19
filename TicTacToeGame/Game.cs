@@ -14,19 +14,24 @@ namespace TicTacToe
 
         private Tile[] Board { get; }
 
-        internal Game()
+        public Game()
         {
             // creating board
+            //  0 | 1 | 2
+            // -----------
+            //  3 | 4 | 5
+            // -----------
+            //  6 | 7 | 8
             Board = new Tile[]{
-                new Tile(){ X = 0, Y = 0, TileValue = Tile.State.None }, // 0
-                new Tile(){ X = 0, Y = 1, TileValue = Tile.State.None }, // 1
-                new Tile(){ X = 0, Y = 2, TileValue = Tile.State.None }, // 2
-                new Tile(){ X = 1, Y = 0, TileValue = Tile.State.None }, // 3
-                new Tile(){ X = 1, Y = 1, TileValue = Tile.State.None }, // 4
-                new Tile(){ X = 1, Y = 2, TileValue = Tile.State.None }, // 5
-                new Tile(){ X = 2, Y = 0, TileValue = Tile.State.None }, // 6
-                new Tile(){ X = 2, Y = 1, TileValue = Tile.State.None }, // 7
-                new Tile(){ X = 2, Y = 2, TileValue = Tile.State.None }, // 8
+                new Tile(){ X = 0, Y = 0, TileValue = Tile.Color.None }, // 0
+                new Tile(){ X = 0, Y = 1, TileValue = Tile.Color.None }, // 1
+                new Tile(){ X = 0, Y = 2, TileValue = Tile.Color.None }, // 2
+                new Tile(){ X = 1, Y = 0, TileValue = Tile.Color.None }, // 3
+                new Tile(){ X = 1, Y = 1, TileValue = Tile.Color.None }, // 4
+                new Tile(){ X = 1, Y = 2, TileValue = Tile.Color.None }, // 5
+                new Tile(){ X = 2, Y = 0, TileValue = Tile.Color.None }, // 6
+                new Tile(){ X = 2, Y = 1, TileValue = Tile.Color.None }, // 7
+                new Tile(){ X = 2, Y = 2, TileValue = Tile.Color.None }, // 8
             };
         }
 
@@ -38,30 +43,32 @@ namespace TicTacToe
         /// <param name="discarded"></param>
         /// <param name="color"></param>
         /// <returns>A value indicating whether the move is valid or not</returns>
-        internal bool ValidateAndPerformMove(int chosenX, int chosenY, int? discardedX, int? discardedY, Tile.State color)
+        internal bool ValidateAndMove(int selectedX, int selectedY, int? discardedX, int? discardedY, Tile.Color color)
         {
             // Checks if the chosen tile is empty
-            if (!Board.Any(t => t.X == chosenX && t.Y == chosenY && t.TileValue == Tile.State.None))
+            if (!Board.Any(t => t.X == selectedX && t.Y == selectedY && !t.IsSelected))
             {
                 return false;
             }
-            // clears discarded tile
+            
+            // If a tile has been emptied
             if (discardedX.HasValue && discardedY.HasValue)
             {
-                // Checks if the discarded tile can be discarded
+                // Checks if the discarded tile is not empty and is of current color
                 if (!Board.Any(t => t.X == discardedX.Value && t.Y == discardedY.Value && t.TileValue == color))
                 {
                     return false;
                 }
-                SetTileState(discardedX.Value, discardedY.Value, Tile.State.None);
+                // clears discarded tile
+                SetTileState(discardedX.Value, discardedY.Value, Tile.Color.None);
             }
             // occupies selected tile
-            SetTileState(chosenX, chosenY, color);
+            SetTileState(selectedX, selectedY, color);
 
             return true;
         }
 
-        private void SetTileState(int x, int y, Tile.State state)
+        private void SetTileState(int x, int y, Tile.Color state)
         {
             Board.Single(t => t.X == x && t.Y == y).TileValue = state;
         }
@@ -69,12 +76,7 @@ namespace TicTacToe
         // Checks the state of the game. 
         internal bool CheckGameState()
         {
-            // winning combinations
-            //  0 | 1 | 2
-            // -----------
-            //  3 | 4 | 5
-            // -----------
-            //  6 | 7 | 8
+            // Testing for winning combinations
             var test = (Board[0].TileValue & Board[1].TileValue & Board[2].TileValue) |
                        (Board[3].TileValue & Board[4].TileValue & Board[5].TileValue) |
                        (Board[6].TileValue & Board[7].TileValue & Board[8].TileValue) |
@@ -87,18 +89,18 @@ namespace TicTacToe
             // setting winner and looser
             switch (test)
             {
-                case Tile.State.X:
+                case Tile.Color.X:
                     Winner = PlayerX;
                     Looser = PlayerO;
                     break;
-                case Tile.State.O:
+                case Tile.Color.O:
                     Winner = PlayerO;
                     Looser = PlayerX;
                     break;
             }
 
             // returns true if the game is finished, otherwise false
-            return test != Tile.State.None;
+            return test != Tile.Color.None;
         }
     }
 }

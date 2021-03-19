@@ -1,8 +1,4 @@
-
-
-
-
-$(function () {
+$(function () {   
 
     var game = $.connection.ticTacToeGameHub;
     var currentMove;
@@ -11,18 +7,7 @@ $(function () {
     var opponentsMoves = [];
     var gameId;
     var remove = null;
-
-    var tiles = [
-        { x: 0, y: 0, img: $('#img00'), btn: $('#btn00') },
-        { x: 0, y: 1, img: $('#img01'), btn: $('#btn01') },
-        { x: 0, y: 2, img: $('#img02'), btn: $('#btn02') },
-        { x: 1, y: 0, img: $('#img10'), btn: $('#btn10') },
-        { x: 1, y: 1, img: $('#img11'), btn: $('#btn11') },
-        { x: 1, y: 2, img: $('#img12'), btn: $('#btn12') },
-        { x: 2, y: 0, img: $('#img20'), btn: $('#btn20') },
-        { x: 2, y: 1, img: $('#img21'), btn: $('#btn21') },
-        { x: 2, y: 2, img: $('#img22'), btn: $('#btn22') },
-    ];
+    var tiles;
 
     game.client.gameCreated = function (id, myTurn) {
         gameId = id;
@@ -85,6 +70,22 @@ $(function () {
         }
     };
 
+    createBoard = function () {
+
+        tiles = [
+            { x: 0, y: 0, img: $('#img00'), btn: $('#btn00') },
+            { x: 0, y: 1, img: $('#img01'), btn: $('#btn01') },
+            { x: 0, y: 2, img: $('#img02'), btn: $('#btn02') },
+            { x: 1, y: 0, img: $('#img10'), btn: $('#btn10') },
+            { x: 1, y: 1, img: $('#img11'), btn: $('#btn11') },
+            { x: 1, y: 2, img: $('#img12'), btn: $('#btn12') },
+            { x: 2, y: 0, img: $('#img20'), btn: $('#btn20') },
+            { x: 2, y: 1, img: $('#img21'), btn: $('#btn21') },
+            { x: 2, y: 2, img: $('#img22'), btn: $('#btn22') },
+        ];       
+
+    }
+
     updateBoard = function (myTurn) {
 
         for (var i = 0; i < tiles.length; i++) {
@@ -131,4 +132,6 @@ $(function () {
     checkTile = function (tileCoord) {
         return currentMove.x == tileCoord.x && currentMove.y == tileCoord.y;
     };
+
+    createBoard();
 });
