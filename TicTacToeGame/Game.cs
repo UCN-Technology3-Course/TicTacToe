@@ -67,12 +67,5 @@ namespace TicTacToe
             // returns true if the game is finished, otherwise false
             return test != Tile.State.None;
         }
-
-        // Checks if a move is valid according to rules
-        internal bool ValidateMove(dynamic chosen)
-        {
-
-            return true;
-        }
     }
 }
