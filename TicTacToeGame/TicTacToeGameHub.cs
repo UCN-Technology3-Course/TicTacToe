@@ -67,12 +67,12 @@ namespace TicTacToe
                 switch (color)
                 {
                     case Tile.Color.X:
-                        game.PlayerX.abortGame("You is cheating!");
+                        game.PlayerX.abortGame("You are cheating!");
                         game.PlayerO.abortGame("The opponent are cheating");
                         break;
                     case Tile.Color.O:
                         game.PlayerX.abortGame("The opponent are cheating");
-                        game.PlayerO.abortGame("You is cheating!");
+                        game.PlayerO.abortGame("You are cheating!");
                         break;
                 }
             }
