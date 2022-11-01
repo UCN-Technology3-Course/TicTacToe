@@ -58,7 +58,7 @@ namespace TicTacToe
                 if (game.CheckGameState())
                 {
                     game.Winner.endGame(true);
-                    game.Looser.endGame(false);
+                    game.Loser.endGame(false);
                 }
             }
             else

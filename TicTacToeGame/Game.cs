@@ -8,7 +8,7 @@ namespace TicTacToe
         internal dynamic PlayerX { get; set; }
         internal dynamic PlayerO { get; set; }
         internal dynamic Winner { get; set; }
-        internal dynamic Looser { get; set; }
+        internal dynamic Loser { get; set; }
         internal Guid GameId { get; set; }
         internal int Moves { get; set; }
 
@@ -86,16 +86,16 @@ namespace TicTacToe
                        (Board[0].TileValue & Board[4].TileValue & Board[8].TileValue) |
                        (Board[2].TileValue & Board[4].TileValue & Board[6].TileValue);
 
-            // setting winner and looser
+            // setting winner and loser
             switch (test)
             {
                 case Tile.Color.X:
                     Winner = PlayerX;
-                    Looser = PlayerO;
+                    Loser = PlayerO;
                     break;
                 case Tile.Color.O:
                     Winner = PlayerO;
-                    Looser = PlayerX;
+                    Loser = PlayerX;
                     break;
             }
 

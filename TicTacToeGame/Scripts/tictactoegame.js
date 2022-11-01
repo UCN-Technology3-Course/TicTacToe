@@ -37,7 +37,7 @@ $(function () {
         }
         else {
 
-            $('#msg').text('You loose...');
+            $('#msg').text('You lose...');
         }
         $(':button').prop('disabled', true);
     }
