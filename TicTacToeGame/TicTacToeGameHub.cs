@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Microsoft.AspNet.SignalR;
 
 namespace TicTacToe
 {
@@ -17,7 +16,7 @@ namespace TicTacToe
         {
             var game = _games.FirstOrDefault(g => g.PlayerO == null);
 
-            if(game != null)
+            if (game != null)
             {
                 game.PlayerO = Clients.Caller;
                 game.PlayerO.gameCreated(game.GameId, false);
@@ -26,7 +25,7 @@ namespace TicTacToe
             else
             {
                 game = new Game { PlayerX = Clients.Caller, GameId = Guid.NewGuid() };
-                _games.Add(game);          
+                _games.Add(game);
             }
         }
 
@@ -40,27 +39,43 @@ namespace TicTacToe
         {
             var game = _games.Single(g => g.GameId == gameId);
 
-            if (discarded != null)
-            {
-                game.SetTileState((int)discarded.x, (int)discarded.y, Tile.State.None);
-            }
+            Tile.Color color = game.Moves++ % 2 == 1 ? Tile.Color.O : Tile.Color.X;
 
-            if (game.Moves++ % 2 == 1) // Player O move
+            if (game.ValidateAndMove((int)chosen.x, (int)chosen.y, (int?)discarded?.x, (int?)discarded?.y, color))
             {
-                game.SetTileState((int)chosen.x, (int)chosen.y, Tile.State.O);
-                game.PlayerX.opponentMove(chosen, discarded);
-            }
-            else // Player X move
-            {
-                game.SetTileState((int)chosen.x, (int)chosen.y, Tile.State.X);
-                game.PlayerO.opponentMove(chosen, discarded);
-            }
+                // Valid move 
+                switch (color)
+                {
+                    case Tile.Color.X:
+                        game.PlayerO.opponentMove(chosen, discarded);
+                        break;
+                    case Tile.Color.O:
+                        game.PlayerX.opponentMove(chosen, discarded);
+                        break;
+                }
 
-            if (game.CheckGameState())
-            {
-                game.Winner.endGame(true);
-                game.Looser.endGame(false);
+                // check winning conditions
+                if (game.CheckGameState())
+                {
+                    game.Winner.endGame(true);
+                    game.Looser.endGame(false);
+                }
             }
-        }        
+            else
+            {
+                // Cheating attempt detected
+                switch (color)
+                {
+                    case Tile.Color.X:
+                        game.PlayerX.abortGame("You is cheating!");
+                        game.PlayerO.abortGame("The opponent are cheating");
+                        break;
+                    case Tile.Color.O:
+                        game.PlayerX.abortGame("The opponent are cheating");
+                        game.PlayerO.abortGame("You is cheating!");
+                        break;
+                }
+            }
+        }
     }
 }

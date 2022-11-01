@@ -10,9 +10,11 @@ namespace TicTacToe
         public Guid Id { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public State TileState { get; set; }
+        public Color TileValue { get; set; }
 
-        public enum State
+        public bool IsSelected => TileValue == Color.X || TileValue == Color.O;
+
+        public enum Color
         {
             None, 
             X, 
